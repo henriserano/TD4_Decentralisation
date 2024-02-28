@@ -21,14 +21,13 @@ export async function launchRegistry() {
   let Nodeid = 0; 
   _registry.post("/registerNode", async (req: Request, res: Response) => {
     const body = req.body as RegisterNodeBody;
-    const key = await crypto.generateRsaKeyPair();
-    Nodes.push({ nodeId: body.nodeId, pubKey:key.publicKey.toString() }); 
+    Nodes.push({ nodeId: body.nodeId, pubKey:body.pubKey }); 
     console.log(`registering node ${body.nodeId}`);
-    res.send({"result":key.publicKey});
+    res.send({"result":body.pubKey});
   });
 
   _registry.get("/getPrivateKey", (req, res) => { 
-    res.send({"result":Nodes[0].pubKey}); 
+    res.send({"result":Nodes[Nodes.length-1].pubKey}); 
   });
 
   _registry.get("/getNodeRegistry", (req, res) => {

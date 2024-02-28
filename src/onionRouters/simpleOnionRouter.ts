@@ -10,8 +10,7 @@ export async function simpleOnionRouter(nodeId: number) {
   let lastReceivedEncryptedMessage: string | null = null;
   let lastReceivedDecryptedMessage: string | null = null;
   let lastMessageDestination: string | null = null;
-  let lastReceivedMessage: string | null = null; // For users
-  let lastSentMessage: string | null = null; // For users
+  
 
   // TODO implement the status route
   onionRouter.get("/status", (req, res) => {
@@ -30,13 +29,7 @@ export async function simpleOnionRouter(nodeId: number) {
     res.send({"result":lastMessageDestination});
   });
 
-  onionRouter.get('/getLastReceivedMessage' , (req, res) => {
-    res.send({"result":lastReceivedMessage});
-  });
-
-  onionRouter.get('/getLastSentMessage' , (req, res) => {
-    res.send({"result":lastSentMessage});
-  });
+  
 
   const server = onionRouter.listen(BASE_ONION_ROUTER_PORT + nodeId, () => {
     console.log(

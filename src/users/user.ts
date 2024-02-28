@@ -11,7 +11,10 @@ export async function user(userId: number) {
   const _user = express();
   _user.use(express.json());
   _user.use(bodyParser.json());
+  let lastReceivedMessage: string | null = null;
+  let lastSentMessage: string | null = null; 
   let message = "";
+  
   // TODO implement the status route
   _user.get("/status", (req, res) => {
     res.send("live");
@@ -21,6 +24,14 @@ export async function user(userId: number) {
     const body = req.body as SendMessageBody;
     message = body.message; 
     console.log(`sending message to user ${body.destinationUserId}`);
+  });
+  
+  _user.get('/getLastReceivedMessage' , (req, res) => {
+    res.send({"result":lastReceivedMessage});
+  });
+
+  _user.get('/getLastSentMessage' , (req, res) => {
+    res.send({"result":lastSentMessage});
   });
 
   _user.post("/sendMessage", (req, res) => {  
